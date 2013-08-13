@@ -1,6 +1,6 @@
 {
   "name": "digger-nestedset",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Abstract supplier for digger that knows left from right",
   "main": "src/index.js",
   "scripts": {
