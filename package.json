@@ -1,0 +1,26 @@
+{
+  "name": "digger-nestedset",
+  "version": "0.0.1",
+  "description": "Abstract supplier for digger that knows left from right",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binocarlos/digger-nestedset.git"
+  },
+  "keywords": [
+    "digger",
+    "nestedset"
+  ],
+  "author": "Kai Davenport",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binocarlos/digger-nestedset/issues"
+  },
+  "dependencies": {
+    "lodash": "~1.3.1",
+    "rationalnestedset": "0.0.2"
+  }
+}
