@@ -50,13 +50,16 @@ function assign_tree_encodings(diggerdata){
   diggerdata.right = encodings.right.encoding;
 }
 
+function extract_context(obj){
+  return obj._digger ? obj._digger : obj;
+}
 
 function query_factory(selector, contextmodels){
-  var query = parse_selector(selector, contextmodels);
+  var query = parse_selector(selector, _.map(contextmodels, extract_context));
   var skeleton = [];
 
   if(contextmodels && contextmodels.length>0){
-    skeleton = generate_tree_query(selector.splitter, contextmodels);
+    skeleton = generate_tree_query(selector.splitter, _.map(contextmodels, extract_context));
   }
 
   return {
@@ -124,6 +127,10 @@ function generate_tree_query(splitter, contextmodels){
 function parse_selector(selector, contextmodels){
 
   var main_query = [];
+
+  if(!selector){
+    return [];
+  }
 
 
   if(selector.diggerid){
