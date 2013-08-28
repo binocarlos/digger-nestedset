@@ -57,7 +57,7 @@ function extract_context(obj){
 function query_factory(selector, contextmodels){
   var query = parse_selector(selector, _.map(contextmodels, extract_context));
   var skeleton = [];
-
+  
   if(contextmodels && contextmodels.length>0){
     skeleton = generate_tree_query(selector.splitter, _.map(contextmodels, extract_context));
   }
