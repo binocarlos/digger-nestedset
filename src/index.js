@@ -29,10 +29,8 @@
   
 */
 var _ = require('lodash');
-var RationalEncoder = require('rationalnestedset');
 
 module.exports = {
-  encode:RationalEncoder,
   generate_tree_query:generate_tree_query,
   parse_selector:parse_selector,
   assign_tree_encodings:assign_tree_encodings,
@@ -41,13 +39,13 @@ module.exports = {
 
 function assign_tree_encodings(diggerdata){
 
-  var encodings = RationalEncoder(diggerdata.diggerpath);
+  diggerdata.treepath = diggerdata.diggerpath.join('.');
     
   //diggerdata.left = tools.getEncodingValue(encodings.left.numerator, encodings.left.denominator);
   //diggerdata.right = tools.getEncodingValue(encodings.right.numerator, encodings.right.denominator);
 
-  diggerdata.left = encodings.left.encoding;
-  diggerdata.right = encodings.right.encoding;
+  //diggerdata.left = encodings.left.encoding;
+  //diggerdata.right = encodings.right.encoding;
 }
 
 function extract_context(obj){
@@ -55,7 +53,8 @@ function extract_context(obj){
 }
 
 function query_factory(selector, contextmodels){
-  var query = parse_selector(selector, _.map(contextmodels, extract_context));
+  var context = _.map(contextmodels, extract_context);
+  var query = parse_selector(selector, context);
   var skeleton = [];
   
   if(contextmodels && contextmodels.length>0){
@@ -92,26 +91,29 @@ function generate_tree_query(splitter, contextmodels){
     }
     // ancestor mode
     else if(splitter=='<<'){
-      or_array.push([{
-        field:'_digger.left',
-        operator:'<',
-        value:contextmodel.left
-      },{
-        field:'_digger.right',
-        operator:'>',
-        value:contextmodel.right
-      }])
+
+      var parts = contextmodel.treepath.split('.') || [];
+
+      while(parts.length>0){
+        or_array.push([{
+          field:'_digger.treepath',
+          operator:'=',
+          value:parts.join('.')
+        }])
+        parts.pop();
+      }
+
     }
     // descendent mode
     else{
+      console.log('-------------------------------------------');
+      console.log('-------------------------------------------');
+      console.log('-------------------------------------------');
+      console.dir(contextmodel);
       or_array.push([{
-        field:'_digger.left',
-        operator:'>',
-        value:contextmodel.left
-      },{
-        field:'_digger.right',
-        operator:'<',
-        value:contextmodel.right
+        field:'_digger.treepath',
+        operator:'^=',
+        value:contextmodel.treepath + '.'
       }])
     }
   })
