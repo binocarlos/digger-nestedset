@@ -31,6 +31,7 @@
 var _ = require('lodash');
 
 module.exports = {
+  extract_context:extract_context,
   generate_tree_query:generate_tree_query,
   parse_selector:parse_selector,
   assign_tree_encodings:assign_tree_encodings,
@@ -106,10 +107,6 @@ function generate_tree_query(splitter, contextmodels){
     }
     // descendent mode
     else{
-      console.log('-------------------------------------------');
-      console.log('-------------------------------------------');
-      console.log('-------------------------------------------');
-      console.dir(contextmodel);
       or_array.push([{
         field:'_digger.treepath',
         operator:'^=',
